@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Website editor | David Kennedy Handyman Services</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = { theme: { extend: { colors: { brand: { 50: '#f0fdf4', 400: '#34d399', 500: '#10b981', 600: '#059669', 700: '#047857' } } } } };
+    </script>
+</head>
+<body class="bg-slate-100 text-slate-800 font-sans antialiased">
+    <header class="bg-slate-900 text-white">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 py-5 flex flex-wrap items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+                <span class="w-11 h-11 rounded-xl bg-brand-600 flex items-center justify-center"><i class="fa-solid fa-pen-to-square text-lg" aria-hidden="true"></i></span>
+                <div><p class="font-bold text-lg">Website editor</p><p class="text-sm text-slate-300">David Kennedy Handyman Services</p></div>
+            </div>
+            <a href="../index.html" class="text-sm font-semibold text-brand-400 hover:text-white"><i class="fa-solid fa-arrow-up-right-from-square mr-2" aria-hidden="true"></i>View website</a>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
+        <div class="max-w-3xl">
+            <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900">Update your website</h1>
+            <p class="mt-3 text-slate-600">Change the words and photos visitors see. Your draft is saved in this browser; download the updated content file when you’re ready to publish.</p>
+        </div>
+
+        <div class="mt-6 rounded-2xl border border-amber-200 bg-amber-50 p-5 text-sm text-amber-950">
+            <p class="font-bold"><i class="fa-solid fa-circle-info mr-2" aria-hidden="true"></i>How publishing works</p>
+            <p class="mt-1">This is a static website, so there’s no database or automatic publishing. Save your draft, download <code class="font-semibold">site-content.json</code>, then replace the existing file on your website host to publish your changes. The admin page has no password protection—keep it private if that matters for your site.</p>
+        </div>
+
+        <div class="mt-6 flex flex-wrap items-center gap-3">
+            <button id="save-draft" type="button" class="rounded-xl bg-slate-800 hover:bg-slate-700 text-white px-5 py-3 font-semibold"><i class="fa-solid fa-floppy-disk mr-2" aria-hidden="true"></i>Save draft on this device</button>
+            <button id="download-content" type="button" class="rounded-xl bg-brand-600 hover:bg-brand-700 text-white px-5 py-3 font-semibold"><i class="fa-solid fa-download mr-2" aria-hidden="true"></i>Download site updates</button>
+            <label class="cursor-pointer rounded-xl border border-slate-300 bg-white hover:bg-slate-50 text-slate-700 px-5 py-3 font-semibold">
+                <i class="fa-solid fa-file-import mr-2" aria-hidden="true"></i>Load a content file
+                <input id="import-content" type="file" accept="application/json,.json" class="sr-only">
+            </label>
+            <button id="reload-live" type="button" class="rounded-xl border border-slate-300 bg-white hover:bg-slate-50 text-slate-700 px-5 py-3 font-semibold">Reload live content</button>
+        </div>
+        <p id="status" role="status" aria-live="polite" class="mt-3 min-h-6 text-sm text-slate-600">Loading your website content…</p>
+
+        <form id="editor" class="mt-6 space-y-6">
+            <section class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 sm:p-8">
+                <div class="mb-6">
+                    <p class="text-sm font-semibold uppercase tracking-wider text-brand-700">01 · Your details</p>
+                    <h2 class="mt-1 text-2xl font-bold text-slate-900">Business information</h2>
+                </div>
+                <div class="grid md:grid-cols-2 gap-5">
+                    <label class="block text-sm font-semibold text-slate-700">Business name
+                        <input id="business-name" type="text" required class="mt-2 w-full rounded-xl border border-slate-300 px-4 py-3 font-normal focus:border-brand-600 focus:outline-none focus:ring-2 focus:ring-brand-100">
+                    </label>
+                    <label class="block text-sm font-semibold text-slate-700">Telephone number
+                        <input id="phone" type="tel" required placeholder="+44 7949 292799" class="mt-2 w-full rounded-xl border border-slate-300 px-4 py-3 font-normal focus:border-brand-600 focus:outline-none focus:ring-2 focus:ring-brand-100">
+                    </label>
+                    <label class="block text-sm font-semibold text-slate-700 md:col-span-2">Main tagline
+                        <input id="tagline" type="text" required class="mt-2 w-full rounded-xl border border-slate-300 px-4 py-3 font-normal focus:border-brand-600 focus:outline-none focus:ring-2 focus:ring-brand-100">
+                    </label>
+                </div>
+                <div class="mt-6 grid md:grid-cols-[1fr_auto] gap-5 items-center">
+                    <div>
+                        <label for="logo-upload" class="block text-sm font-semibold text-slate-700">Business logo</label>
+                        <p class="mt-1 text-sm text-slate-500">Choose an image from your device. It will be resized for the website.</p>
+                        <input id="logo-upload" type="file" accept="image/*" class="mt-3 block w-full text-sm text-slate-600 file:mr-3 file:rounded-lg file:border-0 file:bg-brand-50 file:px-4 file:py-2 file:font-semibold file:text-brand-700 hover:file:bg-brand-100">
+                        <button id="remove-logo" type="button" class="mt-2 text-sm font-semibold text-slate-600 underline">Remove logo</button>
+                    </div>
+                    <div class="min-h-24 min-w-32 rounded-xl border border-dashed border-slate-300 bg-slate-50 p-4 flex items-center justify-center">
+                        <img id="logo-preview" alt="Logo preview" class="hidden max-h-20 max-w-48 object-contain">
+                        <span id="logo-placeholder" class="text-sm text-slate-400">No logo uploaded</span>
+                    </div>
+                </div>
+            </section>
+
+            <section class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 sm:p-8">
+                <div class="mb-6">
+                    <p class="text-sm font-semibold uppercase tracking-wider text-brand-700">02 · What you do</p>
+                    <h2 class="mt-1 text-2xl font-bold text-slate-900">Service descriptions</h2>
+                    <p class="mt-2 text-sm text-slate-500">These descriptions appear on the home page and services page.</p>
+                </div>
+                <div id="services-fields" class="space-y-5"></div>
+            </section>
+
+            <section class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 sm:p-8">
+                <div class="mb-6">
+                    <p class="text-sm font-semibold uppercase tracking-wider text-brand-700">03 · Search listings</p>
+                    <h2 class="mt-1 text-2xl font-bold text-slate-900">SEO details</h2>
+                    <p class="mt-2 text-sm text-slate-500">These details help describe your website in search results.</p>
+                </div>
+                <div class="space-y-5">
+                    <label class="block text-sm font-semibold text-slate-700">Page title
+                        <input id="seo-title" type="text" required maxlength="120" class="mt-2 w-full rounded-xl border border-slate-300 px-4 py-3 font-normal focus:border-brand-600 focus:outline-none focus:ring-2 focus:ring-brand-100">
+                    </label>
+                    <label class="block text-sm font-semibold text-slate-700">Meta description
+                        <textarea id="seo-description" rows="3" maxlength="320" class="mt-2 w-full rounded-xl border border-slate-300 px-4 py-3 font-normal focus:border-brand-600 focus:outline-none focus:ring-2 focus:ring-brand-100"></textarea>
+                    </label>
+                    <label class="block text-sm font-semibold text-slate-700">Keywords
+                        <input id="seo-keywords" type="text" placeholder="handyman Bournemouth, property repairs" class="mt-2 w-full rounded-xl border border-slate-300 px-4 py-3 font-normal focus:border-brand-600 focus:outline-none focus:ring-2 focus:ring-brand-100">
+                        <span class="mt-1 block font-normal text-slate-500">Separate phrases with commas.</span>
+                    </label>
+                </div>
+            </section>
+
+            <section class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 sm:p-8">
+                <div class="mb-6">
+                    <p class="text-sm font-semibold uppercase tracking-wider text-brand-700">04 · Photos of your work</p>
+                    <h2 class="mt-1 text-2xl font-bold text-slate-900">Portfolio gallery</h2>
+                    <p class="mt-2 text-sm text-slate-500">Upload a photo and add its job name and location. Images are resized before they’re saved.</p>
+                </div>
+                <div id="gallery-fields" class="grid md:grid-cols-2 gap-5"></div>
+            </section>
+        </form>
+
+        <div class="mt-8 flex flex-wrap gap-3">
+            <button type="button" data-action="save" class="rounded-xl bg-slate-800 hover:bg-slate-700 text-white px-5 py-3 font-semibold"><i class="fa-solid fa-floppy-disk mr-2" aria-hidden="true"></i>Save draft</button>
+            <button type="button" data-action="download" class="rounded-xl bg-brand-600 hover:bg-brand-700 text-white px-5 py-3 font-semibold"><i class="fa-solid fa-download mr-2" aria-hidden="true"></i>Download site updates</button>
+        </div>
+    </main>
+
+    <script>
+        (() => {
+            const draftKey = 'david-kennedy-site-content-draft';
+            const status = document.getElementById('status');
+            const form = document.getElementById('editor');
+            let content = null;
+
+            const defaultGalleryItem = () => ({ src: '', alt: '', title: '', location: '', description: '' });
+            const setStatus = (message, isError = false) => {
+                status.textContent = message;
+                status.className = `mt-3 min-h-6 text-sm ${isError ? 'text-red-700' : 'text-slate-600'}`;
+            };
+            const makeLabel = (labelText, value, onChange, multiline = false) => {
+                const label = document.createElement('label');
+                label.className = 'block text-sm font-semibold text-slate-700';
+                label.append(document.createTextNode(labelText));
+                const field = document.createElement(multiline ? 'textarea' : 'input');
+                if (multiline) field.rows = 2;
+                else field.type = 'text';
+                field.value = value || '';
+                field.className = 'mt-2 w-full rounded-xl border border-slate-300 px-4 py-3 font-normal focus:border-brand-600 focus:outline-none focus:ring-2 focus:ring-brand-100';
+                field.addEventListener('input', () => onChange(field.value));
+                label.append(field);
+                return label;
+            };
+
+            function populateForm() {
+                document.getElementById('business-name').value = content.businessName || '';
+                document.getElementById('tagline').value = content.tagline || '';
+                document.getElementById('phone').value = content.phone || '';
+                document.getElementById('seo-title').value = content.seo?.title || '';
+                document.getElementById('seo-description').value = content.seo?.description || '';
+                document.getElementById('seo-keywords').value = content.seo?.keywords || '';
+
+                const serviceFields = document.getElementById('services-fields');
+                serviceFields.replaceChildren();
+                content.services.forEach((service, index) => {
+                    const group = document.createElement('div');
+                    group.className = 'grid md:grid-cols-2 gap-4 rounded-xl bg-slate-50 p-4';
+                    group.append(
+                        makeLabel('Service name', service.title, (value) => { content.services[index].title = value; }),
+                        makeLabel('Description', service.description, (value) => { content.services[index].description = value; }, true)
+                    );
+                    serviceFields.append(group);
+                });
+                renderGallery();
+                renderLogo();
+            }
+
+            function renderLogo() {
+                const preview = document.getElementById('logo-preview');
+                const placeholder = document.getElementById('logo-placeholder');
+                if (content.logo) {
+                    preview.src = content.logo;
+                    preview.classList.remove('hidden');
+                    placeholder.classList.add('hidden');
+                } else {
+                    preview.removeAttribute('src');
+                    preview.classList.add('hidden');
+                    placeholder.classList.remove('hidden');
+                }
+            }
+
+            function renderGallery() {
+                const container = document.getElementById('gallery-fields');
+                container.replaceChildren();
+                content.gallery.forEach((item, index) => {
+                    const card = document.createElement('article');
+                    card.className = 'rounded-xl border border-slate-200 p-4';
+                    const image = document.createElement('img');
+                    image.src = item.src || '';
+                    image.alt = item.alt || `Portfolio photo ${index + 1}`;
+                    image.className = 'h-40 w-full rounded-lg bg-slate-100 object-cover';
+                    const upload = document.createElement('input');
+                    upload.type = 'file';
+                    upload.accept = 'image/*';
+                    upload.setAttribute('aria-label', `Upload portfolio photo ${index + 1}`);
+                    upload.className = 'mt-3 block w-full text-sm text-slate-600 file:mr-3 file:rounded-lg file:border-0 file:bg-brand-50 file:px-4 file:py-2 file:font-semibold file:text-brand-700 hover:file:bg-brand-100';
+                    upload.addEventListener('change', async () => {
+                        if (!upload.files?.[0]) return;
+                        try {
+                            content.gallery[index].src = await resizeImage(upload.files[0], 1200);
+                            image.src = content.gallery[index].src;
+                            setStatus('Photo added to your draft. Save the draft or download the site updates when ready.');
+                        } catch (error) {
+                            setStatus(error.message, true);
+                        }
+                    });
+                    card.append(image, upload);
+                    card.append(
+                        makeLabel('Job name', item.title, (value) => { content.gallery[index].title = value; }),
+                        makeLabel('Location', item.location, (value) => { content.gallery[index].location = value; }),
+                        makeLabel('Photo description (for accessibility)', item.alt, (value) => { content.gallery[index].alt = value; }),
+                        makeLabel('Short job details', item.description, (value) => { content.gallery[index].description = value; }, true)
+                    );
+                    card.querySelectorAll('label').forEach((label) => label.classList.add('mt-3'));
+                    container.append(card);
+                });
+            }
+
+            function readForm() {
+                content.businessName = document.getElementById('business-name').value.trim();
+                content.tagline = document.getElementById('tagline').value.trim();
+                content.phone = document.getElementById('phone').value.trim();
+                content.seo = {
+                    title: document.getElementById('seo-title').value.trim(),
+                    description: document.getElementById('seo-description').value.trim(),
+                    keywords: document.getElementById('seo-keywords').value.trim()
+                };
+            }
+
+            function saveDraft(showMessage = true) {
+                readForm();
+                try {
+                    localStorage.setItem(draftKey, JSON.stringify(content));
+                    if (showMessage) setStatus('Draft saved in this browser on this device. Download the updates to publish them to your website.');
+                    return true;
+                } catch (error) {
+                    setStatus('Could not save this draft in your browser. The photos may be too large; try smaller images or download the updates instead.', true);
+                    return false;
+                }
+            }
+
+            function downloadContent() {
+                readForm();
+                if (!form.reportValidity()) return;
+                const blob = new Blob([`${JSON.stringify(content, null, 2)}\n`], { type: 'application/json' });
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.download = 'site-content.json';
+                link.click();
+                URL.revokeObjectURL(link.href);
+                saveDraft(false);
+                setStatus('Downloaded site-content.json. Replace the existing file on your website host to publish these changes.');
+            }
+
+            function validateContent(value) {
+                return value && typeof value.businessName === 'string' &&
+                    typeof value.tagline === 'string' && typeof value.phone === 'string' &&
+                    value.seo && typeof value.seo.title === 'string' &&
+                    typeof value.seo.description === 'string' && typeof value.seo.keywords === 'string' &&
+                    (value.logo === undefined || typeof value.logo === 'string') &&
+                    Array.isArray(value.services) && value.services.length === 3 &&
+                    value.services.every((service) => service && typeof service.title === 'string' && typeof service.description === 'string') &&
+                    Array.isArray(value.gallery) && value.gallery.every((item) => item &&
+                        ['src', 'alt', 'title', 'location', 'description'].every((key) => typeof item[key] === 'string'));
+            }
+
+            async function loadLiveContent() {
+                try {
+                    const response = await fetch('../site-content.json', { cache: 'no-store' });
+                    if (!response.ok) throw new Error(`Could not load site-content.json (${response.status}).`);
+                    const loaded = await response.json();
+                    if (!validateContent(loaded)) throw new Error('The live content file is missing required fields.');
+                    content = loaded;
+                    localStorage.removeItem(draftKey);
+                    populateForm();
+                    setStatus('Loaded the current live content. Changes are not published until you download and replace site-content.json.');
+                } catch (error) {
+                    setStatus(`${error.message} If you have the file, use “Load a content file” to open it.`, true);
+                }
+            }
+
+            async function resizeImage(file, maxDimension) {
+                if (!file.type.startsWith('image/')) throw new Error('Please choose an image file.');
+                if (file.size > 15 * 1024 * 1024) throw new Error('Please choose an image smaller than 15 MB.');
+                const objectUrl = URL.createObjectURL(file);
+                try {
+                    const image = new Image();
+                    image.src = objectUrl;
+                    await new Promise((resolve, reject) => {
+                        image.onload = resolve;
+                        image.onerror = () => reject(new Error('That image could not be opened. Please try another file.'));
+                    });
+                    const scale = Math.min(1, maxDimension / Math.max(image.naturalWidth, image.naturalHeight));
+                    const canvas = document.createElement('canvas');
+                    canvas.width = Math.max(1, Math.round(image.naturalWidth * scale));
+                    canvas.height = Math.max(1, Math.round(image.naturalHeight * scale));
+                    const context = canvas.getContext('2d');
+                    if (!context) throw new Error('Your browser could not process this image.');
+                    context.drawImage(image, 0, 0, canvas.width, canvas.height);
+                    return canvas.toDataURL('image/webp', 0.82);
+                } finally {
+                    URL.revokeObjectURL(objectUrl);
+                }
+            }
+
+            document.getElementById('business-name').addEventListener('input', () => { if (content) content.businessName = document.getElementById('business-name').value; });
+            document.getElementById('tagline').addEventListener('input', () => { if (content) content.tagline = document.getElementById('tagline').value; });
+            document.getElementById('phone').addEventListener('input', () => { if (content) content.phone = document.getElementById('phone').value; });
+            ['seo-title', 'seo-description', 'seo-keywords'].forEach((id) => {
+                document.getElementById(id).addEventListener('input', () => {
+                    if (!content) return;
+                    const key = id.replace('seo-', '');
+                    content.seo[key] = document.getElementById(id).value;
+                });
+            });
+            form.addEventListener('submit', (event) => event.preventDefault());
+            document.getElementById('save-draft').addEventListener('click', () => content && saveDraft());
+            document.getElementById('download-content').addEventListener('click', () => content && downloadContent());
+            document.querySelectorAll('[data-action="save"]').forEach((button) => button.addEventListener('click', () => content && saveDraft()));
+            document.querySelectorAll('[data-action="download"]').forEach((button) => button.addEventListener('click', () => content && downloadContent()));
+            document.getElementById('reload-live').addEventListener('click', loadLiveContent);
+            document.getElementById('logo-upload').addEventListener('change', async (event) => {
+                const file = event.target.files?.[0];
+                if (!file || !content) return;
+                try {
+                    content.logo = await resizeImage(file, 600);
+                    renderLogo();
+                    setStatus('Logo added to your draft. Save the draft or download the site updates when ready.');
+                } catch (error) {
+                    setStatus(error.message, true);
+                }
+            });
+            document.getElementById('remove-logo').addEventListener('click', () => {
+                if (!content) return;
+                content.logo = '';
+                document.getElementById('logo-upload').value = '';
+                renderLogo();
+            });
+            document.getElementById('import-content').addEventListener('change', async (event) => {
+                const file = event.target.files?.[0];
+                if (!file) return;
+                try {
+                    const imported = JSON.parse(await file.text());
+                    if (!validateContent(imported)) throw new Error('This file does not look like a website content file.');
+                    content = imported;
+                    populateForm();
+                    saveDraft(false);
+                    setStatus('Content file loaded. Make any changes, then download site updates to publish.');
+                } catch (error) {
+                    setStatus(error.message || 'Could not read that content file.', true);
+                } finally {
+                    event.target.value = '';
+                }
+            });
+
+            try {
+                const draft = localStorage.getItem(draftKey);
+                if (draft) {
+                    const parsed = JSON.parse(draft);
+                    if (!validateContent(parsed)) throw new Error('Saved draft has an unexpected format.');
+                    content = parsed;
+                    populateForm();
+                    setStatus('Your saved draft is open. Download the updates when you’re ready to publish.');
+                } else {
+                    loadLiveContent();
+                }
+            } catch (error) {
+                setStatus(`Could not load the saved draft: ${error.message}`, true);
+            }
+        })();
+    </script>
+</body>
+</html>
