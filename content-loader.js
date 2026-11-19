@@ -1,6 +1,6 @@
 (async () => {
     try {
-        const response = await fetch('site-content.json');
+        const response = await fetch(`site-content.json?v=${Date.now()}`, { cache: 'no-store' });
         if (!response.ok) {
             throw new Error(`Could not load site content (${response.status})`);
         }
@@ -65,6 +65,6 @@
             });
         });
     } catch (error) {
-        console.error('Unable to apply editable website content. Serve the site over HTTP and check site-content.json.', error);
+        console.error('Unable to apply editable website content. Check that site-content.json is available in the website deployment.', error);
     }
 })();
